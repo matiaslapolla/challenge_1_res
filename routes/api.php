@@ -10,3 +10,4 @@ Route::apiResource('hotels', HotelController::class);
 Route::apiResource('bookings', BookingController::class);
 
 Route::post('bookings/export', [BookingController::class, 'exportAllBookings']);
+Route::post('bookings/{id}/cancel', [BookingController::class, 'cancelBooking']);

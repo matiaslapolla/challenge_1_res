@@ -16,6 +16,7 @@ class Booking extends Model
         'customer_email',
         'number_of_people',
         'booking_date',
+				'status',
     ];
 
     public function tour()

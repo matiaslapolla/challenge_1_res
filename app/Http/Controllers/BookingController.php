@@ -101,4 +101,34 @@ class BookingController extends Controller
 			$service = new BookingService();
 			$service->exportAllBookings();
 		}
+
+		public function cancelBooking(Request $request) {
+
+			$id = $request->id;
+
+			if (!$id) {
+				return response()->json(['message' => 'ID is missing'], 400);
+			}
+
+			if (!is_numeric($id)) {
+				return response()->json(['message' => 'ID must be a number'], 400);
+			}
+
+			$query = Booking::query();
+
+			$query->where('id', $id);
+
+			$bookings = $query->get();
+
+			if ($bookings->isEmpty()) {
+				return response()->json(['message' => 'Booking not found'], 404);
+			}
+
+			// set status as "cancelled"
+			foreach ($bookings as $booking) {
+				$booking->update(['status' => 'cancelled']);
+			}
+
+			return response()->json($bookings, 200);
+		}
 }
