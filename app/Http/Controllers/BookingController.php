@@ -131,4 +131,34 @@ class BookingController extends Controller
 
 			return response()->json($bookings, 200);
 		}
+
+		public function renewBooking(Request $request) {
+
+			$id = $request->id;
+
+			if (!$id) {
+				return response()->json(['message' => 'ID is missing'], 400);
+			}
+
+			if (!is_numeric($id)) {
+				return response()->json(['message' => 'ID must be a number'], 400);
+			}
+
+			$query = Booking::query();
+
+			$query->where('id', $id);
+
+			$bookings = $query->get();
+
+			if ($bookings->isEmpty()) {
+				return response()->json(['message' => 'Booking not found'], 404);
+			}
+
+			// set status as "available"
+			foreach ($bookings as $booking) {
+				$booking->update(['status' => 'available']);
+			}
+
+			return response()->json($bookings, 200);
+		}
 }
