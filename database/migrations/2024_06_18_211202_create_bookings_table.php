@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('customer_email');
             $table->integer('number_of_people');
             $table->date('booking_date');
+						$table->string('status')->default('available');
             $table->timestamps();
         });
     }
